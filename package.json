@@ -1,0 +1,17 @@
+{
+  "name": "com.cerealdevelopment.unitframework",
+  "displayName": "Unit Framework",
+  "description": "Units with modular abilities",
+  "unity": "2018.2",
+  "version": "0.9.1",
+  "license": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cerea1/UnitFramework.git"
+  },
+  "author": "https://github.com/cerea1/UnitFramework.git",
+  "dependencies": {
+    "com.cerealdevelopment.lifetime": "0.9.0",
+    "com.cerealdevelopment.timemanagement": "0.9.0"
+  }
+}
