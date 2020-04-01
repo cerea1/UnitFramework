@@ -15,8 +15,8 @@ namespace CerealDevelopment.UnitFramework
         static void CreateInstance()
         {
             var gameObject = new GameObject(typeof(PassiveSystem).Name);
-            DontDestroyOnLoad(gameObject);
             gameObject.AddComponent<PassiveSystem>();
+            DontDestroyOnLoad(gameObject);
         }
 
         private void OnEnable()

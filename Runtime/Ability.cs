@@ -45,6 +45,8 @@ namespace CerealDevelopment.UnitFramework
 
                 FireInitializedEvent();
 
+                canUpdateState = true;
+
                 if (gameObject.activeInHierarchy)
                 {
                     UpdateState();
@@ -81,6 +83,8 @@ namespace CerealDevelopment.UnitFramework
                 deactivators.Clear();
                 FireDisposedEvent();
                 Dispose();
+
+                canUpdateState = false;
 
 
                 IsLifetimeInitialized = false;
@@ -169,6 +173,8 @@ namespace CerealDevelopment.UnitFramework
             get => deactivators.Count;
         }
 
+        private bool canUpdateState;
+
         private List<IAbility<U>> innerAbilities;
 
         public void GetDeactivators(List<Object> getList)
@@ -204,7 +210,10 @@ namespace CerealDevelopment.UnitFramework
             return unit.GetAbility<T>();
         }
 
-        private void OnEnable()
+        protected virtual void OnActivated() { }
+        protected virtual void OnDeactivated() { }
+
+        protected virtual void OnEnable()
         {
             if (IsLifetimeInitialized)
             {
@@ -212,7 +221,7 @@ namespace CerealDevelopment.UnitFramework
             }
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (IsLifetimeInitialized)
             {
@@ -222,38 +231,43 @@ namespace CerealDevelopment.UnitFramework
 
         private void UpdateState()
         {
-            if (innerAbilities == null)
+            if (canUpdateState)
             {
-                Debug.LogError("Ability is not initialized completely", this);
-                return;
-            }
-            var previousState = IsActive;
-            IsActive = deactivators.Count == 0;
-
-            if (IsActive)
-            {
-                for (int i = 0; i < innerAbilities.Count; i++)
+                if (innerAbilities == null)
                 {
-                    innerAbilities[i].RemoveDeactivator(transform);
+                    Debug.LogError("Ability is not initialized completely", this);
+                    return;
                 }
-            }
-            else
-            {
-                for (int i = 0; i < innerAbilities.Count; i++)
-                {
-                    innerAbilities[i].AddDeactivator(transform);
-                }
-            }
+                var previousState = IsActive;
+                IsActive = deactivators.Count == 0;
 
-            if (previousState != IsActive)
-            {
                 if (IsActive)
                 {
-                    Activated?.Invoke(this);
+                    for (int i = 0; i < innerAbilities.Count; i++)
+                    {
+                        innerAbilities[i].RemoveDeactivator(transform);
+                    }
                 }
                 else
                 {
-                    Deactivated?.Invoke(this);
+                    for (int i = 0; i < innerAbilities.Count; i++)
+                    {
+                        innerAbilities[i].AddDeactivator(transform);
+                    }
+                }
+
+                if (previousState != IsActive)
+                {
+                    if (IsActive)
+                    {
+                        OnActivated();
+                        Activated?.Invoke(this);
+                    }
+                    else
+                    {
+                        OnDeactivated();
+                        Deactivated?.Invoke(this);
+                    }
                 }
             }
         }
