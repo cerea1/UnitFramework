@@ -196,7 +196,7 @@ namespace CerealDevelopment.UnitFramework
 
         public void RemoveDeactivator(Object deactivator)
         {
-            if (deactivators.RemoveByID(deactivator))
+            if (deactivators.RemoveByIDSwapBack(deactivator))
             {
                 if (IsLifetimeInitialized && innerAbilities != null)
                 {
