@@ -205,11 +205,6 @@ namespace CerealDevelopment.UnitFramework
             }
         }
 
-        public T GetAbility<T>() where T : IAbility<U>
-        {
-            return unit.GetAbility<T>();
-        }
-
         protected virtual void OnActivated() { }
         protected virtual void OnDeactivated() { }
 

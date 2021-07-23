@@ -10,14 +10,10 @@ namespace CerealDevelopment.UnitFramework
         event System.Action<IAbilityBase> Activated;
         event System.Action<IAbilityBase> Deactivated;
 
-        bool IsActive { get; }
-
-                
+        bool IsActive { get; }                
 
         void AddDeactivator(Object deactivator);
         void RemoveDeactivator(Object deactivator);
-
-        //int GetInstanceID();
 
         void GetDeactivators(List<Object> deactivatorsList);
 
@@ -32,8 +28,6 @@ namespace CerealDevelopment.UnitFramework
         void AbilityInitialize(U unit);
 
         void AbilityDispose(U unit);
-        
-        T GetAbility<T>() where T : IAbility<U>;
     }
 
     public interface IActAbility : IAbilityBase
