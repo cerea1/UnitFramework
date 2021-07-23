@@ -1,12 +1,11 @@
 ﻿using CerealDevelopment.LifetimeManagement;
-using CerealDevelopment.TimeManagement;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace CerealDevelopment.UnitFramework
 {
-    public class PassiveSystem : LifetimeMonoBehaviour, IUpdatable, ILifetimePerceiver<IPassiveAbility>
+    public class PassiveSystem : LifetimeMonoBehaviour, ILifetimePerceiver<IPassiveAbility>
     {
         private HashSet<IPassiveAbility> passiveAbilities = new HashSet<IPassiveAbility>();
         private HashSet<IPassiveAbility> activeAbilities = new HashSet<IPassiveAbility>();
@@ -19,17 +18,7 @@ namespace CerealDevelopment.UnitFramework
             DontDestroyOnLoad(gameObject);
         }
 
-        private void OnEnable()
-        {
-            this.EnableUpdates();
-        }
-
-        private void OnDisable()
-        {
-            this.DisableUpdates();
-        }
-
-        void IUpdatable.OnUpdate()
+        void Update()
         {
             var i = 0;
             //var enumerator = activeAbilities.GetEnumerator();
